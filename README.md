@@ -38,6 +38,7 @@ total 8.2M
 -rw-r--r-- 1 holger users 1.3M Apr 30  2019 Exploiting a Natural Network Effect for Scalable, Fine-grained Clock Synchronization.pdf
 ```
 This will fix up all timestamps. Invalid documents or missing ```CreationDate/ModificationDate``` properties are ignored.
+If a document contains both properties then ```ModificationDate``` is preferred.
 
 # Building
 - Install ```poppler``` and - depending on your distribution - ```poppler-dev```
