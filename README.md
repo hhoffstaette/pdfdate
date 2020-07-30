@@ -4,7 +4,7 @@ Retrieves the creation/modification date of a PDF document.
 # The problem
 You enjoy reading technical reports and downloaded a bunch of PDF files, but
 their time stamps are all wrong - it's the time of the download, not the
-CreationDate/ModificationDate of the document, which is likely to be in the
+```CreationDate/ModificationDate``` of the document, which is likely to be in the
 past. But having proper timestamps is useful to know when a report was
 actually written. What can you do?
 ```
