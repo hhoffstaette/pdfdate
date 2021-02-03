@@ -6,6 +6,12 @@
 #include <ctime>
 #include <poppler/cpp/poppler-document.h>
 
+// sanitize a given time_t from UINT_MAX to 0
+static inline time_t sanitize(time_t input)
+{
+	return (input == UINT_MAX ? 0 : input);
+}
+
 int main(int argc, char** argv)
 {
 	using namespace std;
@@ -23,18 +29,18 @@ int main(int argc, char** argv)
 		exit(EXIT_FAILURE);
 	}
 
-	// try ModificationDate first
-	time_t date = doc->get_modification_date();
+	// Timestamps in many PDF files are frequently broken, with ModificationDate
+	// *before* the CreationDate, one of the two values missing or whatever.
+	// So all we can do is try our best and use the larger (later) value of the two,
+	// after taking into account their possible absence.
+	time_t cdate = sanitize(doc->get_creation_date());
+	time_t mdate = sanitize(doc->get_modification_date());
+	time_t date = max(cdate, mdate);
 
-	if (date == UINT_MAX)
+	if (date == 0)
 	{
-		// no ModificationDate, try CreationDate
-		date = doc->get_creation_date();
-		if (date == UINT_MAX)
-		{
-			// no CreationDate either: bail out
-			exit(EXIT_FAILURE);
-		}
+		// neither CreationDate nor ModificationDate
+		exit(EXIT_FAILURE);
 	}
 
 	tm *tmdate = gmtime(&date);
