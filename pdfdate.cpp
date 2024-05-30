@@ -33,8 +33,8 @@ int main(int argc, char** argv)
 	// *before* the CreationDate, one of the two values missing or whatever.
 	// So all we can do is try our best and use the larger (later) value of the two,
 	// after taking into account their possible absence.
-	time_t cdate = sanitize(doc->get_creation_date());
-	time_t mdate = sanitize(doc->get_modification_date());
+	time_t cdate = sanitize(doc->get_creation_date_t());
+	time_t mdate = sanitize(doc->get_modification_date_t());
 	time_t date = max(cdate, mdate);
 
 	if (date == 0)
